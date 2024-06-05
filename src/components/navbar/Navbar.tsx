@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,8 +14,8 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-20 items-center">
           <div className="flex-shrink-0">
-            <a
-              href="/"
+            <Link
+              to="/"
               className="flex items-center text-gray-800 text-lg font-semibold"
             >
               <img
@@ -22,16 +23,16 @@ const Navbar = () => {
                 alt="Logo"
                 className="h-8 mr-2"
               />
-            </a>
+            </Link>
           </div>
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              <a
-                href="/"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
+              <Link
+                to="/"
+                className="flex items-center text-gray-800 text-lg font-semibold"
               >
                 Home
-              </a>
+              </Link>
               <a
                 href="/"
                 className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
@@ -90,11 +91,13 @@ const Navbar = () => {
             </div>
             <div className="ml-4 flex items-center md:ml-6">
               <span className="text-gray-800 px-4 py-2 rounded-md  font-medium">
-                Login
+                <Link to="/login"> Login</Link>
               </span>
-              <button className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md  font-medium">
-                Sign Up
-              </button>
+              <Link to="/signup">
+                <button className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md  font-medium">
+                  Sign Up
+                </button>
+              </Link>
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">

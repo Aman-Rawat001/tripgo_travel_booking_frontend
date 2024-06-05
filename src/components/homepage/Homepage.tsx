@@ -13,7 +13,6 @@ import HomeSection3 from "./homesection3/homesection3";
 const Homepage = () => {
   return (
     <div>
-      <Navbar />
       <div>
         <HeroScreen />
         <div style={{ paddingLeft: "3rem", paddingRight: "3rem" }}>
@@ -35,7 +34,6 @@ const Homepage = () => {
       >
         <HomeSection3 />
       </div>
-      <Footer />
     </div>
   );
 };

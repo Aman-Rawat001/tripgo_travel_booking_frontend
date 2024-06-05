@@ -1,71 +1,52 @@
-import React, { useState } from "react";
+import React from "react";
+import { Box, Grid } from "@mui/material";
+import { styled } from "@mui/system";
+import SignInForm from "./singInForm/SignInForm";
+import travelImg from "../../assets/travel.png";
 
-const LoginForm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const MainContainer = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+});
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log("Submitted:", { email, password });
-    // You can add your login logic here
-  };
+const FormGrid = styled(Grid)({
+  marginTop: "2rem",
+  justifyContent: "center",
+  alignItems: "center",
+  display: "flex",
+});
 
-  return (
-    <>
-      <div className="flex flex-col items-center justify-center h-screen">
-        <div>
-          <h3 className="text-3xl underline ">Login</h3>
-        </div>
-        <form
-          onSubmit={(e) => handleSubmit(e)}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-          style={{ width: "80%" }}
+const Login = () => (
+  <MainContainer>
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "2rem 0",
+      }}
+    >
+      <FormGrid container>
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{ display: "flex", justifyContent: "center" }}
         >
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-gray-700 text-sm font-bold mb-2"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <button
-              style={{ backgroundColor: "#DC2626" }}
-              type="submit"
-              className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            >
-              Sign In
-            </button>
-          </div>
-        </form>
-      </div>
-    </>
-  );
-};
+          <img
+            src={travelImg}
+            alt="Travelers"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SignInForm />
+        </Grid>
+      </FormGrid>
+    </Box>
+  </MainContainer>
+);
 
-export default LoginForm;
+export default Login;

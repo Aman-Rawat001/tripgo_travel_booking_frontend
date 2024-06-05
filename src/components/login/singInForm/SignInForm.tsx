@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/system";
 
-const RegisterPaper = styled(Paper)(({ theme }) => ({
+const SignInPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   display: "flex",
   flexDirection: "column",
@@ -20,21 +20,12 @@ const RegisterPaper = styled(Paper)(({ theme }) => ({
   margin: "auto",
 }));
 
-const RegistrationForm = () => (
-  <RegisterPaper elevation={3}>
+const SignInForm = () => (
+  <SignInPaper elevation={3}>
     <Typography component="h1" variant="h5">
-      Register with Us
+      Sign in
     </Typography>
     <Box component="form" sx={{ mt: 1 }}>
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        id="name"
-        label="Name"
-        name="name"
-        autoComplete="name"
-      />
       <TextField
         margin="normal"
         required
@@ -43,15 +34,6 @@ const RegistrationForm = () => (
         label="Email"
         name="email"
         autoComplete="email"
-      />
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        id="phone"
-        label="Phone"
-        name="phone"
-        autoComplete="phone"
       />
       <TextField
         margin="normal"
@@ -67,19 +49,9 @@ const RegistrationForm = () => (
         margin="normal"
         required
         fullWidth
-        name="confirmPassword"
-        label="Confirm Password"
-        type="password"
-        id="confirmPassword"
-      />
-      <TextField
-        margin="normal"
-        required
-        fullWidth
-        id="address"
-        label="Address"
-        name="address"
-        autoComplete="address"
+        name="captcha"
+        label="R 0 6 Mg Q"
+        id="captcha"
       />
       <Button
         type="submit"
@@ -87,17 +59,31 @@ const RegistrationForm = () => (
         variant="contained"
         sx={{ mt: 3, mb: 2, backgroundColor: "#DC2626" }}
       >
-        REGISTER
+        VERIFY CAPTCHA
+      </Button>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 1, mb: 2 }}
+        disabled
+      >
+        SIGN IN
       </Button>
       <Grid container justifyContent="flex-end">
-        <Grid item>
+        <Grid item xs>
           <Link href="#" variant="body2">
-            Already have an account? Log in
+            Forgot password?
+          </Link>
+        </Grid>
+        <Grid item>
+          <Link href="/sign-up" variant="body2">
+            {"Don't have an account? Sign up"}
           </Link>
         </Grid>
       </Grid>
     </Box>
-  </RegisterPaper>
+  </SignInPaper>
 );
 
-export default RegistrationForm;
+export default SignInForm;

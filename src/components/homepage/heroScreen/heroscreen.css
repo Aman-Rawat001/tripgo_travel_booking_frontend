@@ -1,0 +1,20 @@
+.heroscreen{
+    background-image: url("../../../assets/headerimage1.jpg");
+    height: 38rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.timer{
+    padding: 0.2rem;
+    border: 1px solid lightgreen;
+    background-color: white;
+    border-radius: 5px;
+    color: lightgreen;
+    /* display: inline-block; */
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+    position: absolute;
+    bottom: -9px;
+    left: 16px;
+}

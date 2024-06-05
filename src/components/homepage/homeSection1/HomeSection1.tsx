@@ -1,30 +1,35 @@
 import React, { useState } from "react";
 import img from "../../../assets/headerimage.jpg";
+import "./homesection1.css";
 
 const dummyData = [
   {
-    imageURL: "https://example.com/image1.jpg",
+    imageURL:
+      "https://demo.ovatheme.com/tripgo/wp-content/uploads/2022/08/Netherlands-636x426.jpg",
     title: "Exciting Adventure in the Mountains",
     city: "Mountain Town",
     price: "$500",
     days: 5,
   },
   {
-    imageURL: "https://example.com/image2.jpg",
+    imageURL:
+      "https://demo.ovatheme.com/tripgo/wp-content/uploads/2022/08/Tour-Russia-636x426.jpg",
     title: "Relaxing Beach Getaway Here Hello",
     city: "Beachside Resort",
     price: "$700",
     days: 7,
   },
   {
-    imageURL: "https://example.com/image3.jpg",
+    imageURL:
+      "https://demo.ovatheme.com/tripgo/wp-content/uploads/2023/04/tour-hours-2-636x426.jpg",
     title: "Cultural Exploration in the City New",
     city: "Metropolis",
     price: "$400",
     days: 4,
   },
   {
-    imageURL: "https://example.com/image4.jpg",
+    imageURL:
+      "https://demo.ovatheme.com/tripgo/wp-content/uploads/2023/04/tour-hours-1-636x426.jpg",
     title: "Safari Adventure in the Wilderness",
     city: "Safari Camp",
     price: "$900",
@@ -49,8 +54,8 @@ const HomeSection1 = () => {
             return (
               <div className="imageContentCard shadow-lg rounded-lg overflow-hidden mx-3 rounded-md">
                 <div className="relative">
-                  <img src={img} className="w-100% h-100%" />
-                  <div className="timer flex items-center justify-between">
+                  <img src={item.imageURL} className="w-100% h-100%" />
+                  <div className="timer flex items-center justify-between ">
                     <div>
                       <svg
                         className="h-8 w-4 mr-2 text-green-500"
@@ -110,7 +115,7 @@ const HomeSection1 = () => {
                       $2900
                     </span>
                   </p>
-                  <button className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                  <button className="bg-red-600 hover:bg-red-[#DC2626] text-white font-bold py-2 px-4 rounded">
                     Explore
                   </button>
                 </div>

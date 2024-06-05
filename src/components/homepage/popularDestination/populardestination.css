@@ -1,0 +1,48 @@
+.redBanner{
+    /* height: 1rem; */
+}
+  .popularDestinationParent .leftcard img,
+.popularDestinationParent .rightCard img {
+  border-radius: 8%;
+  margin: 2rem; /* Adjust margins as needed */
+  transition: box-shadow 0.3s ease-in-out; /* Add transition for smoothness */
+}
+
+.popularDestinationParent .leftcard img:hover,
+.popularDestinationParent .rightCard img:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+
+@media (max-width: 800px) {
+  .popularDestinationParent .leftcard img,
+  .popularDestinationParent .rightCard img {
+    margin: 0rem;
+    margin-bottom: 1rem;
+  }
+}
+
+  
+  .popularDestinationParent .leftcard img {
+    border-radius: 8%;
+    margin: 2rem;
+  }
+  
+  .popularDestinationParent .rightCard img {
+    border-radius: 8%;
+    margin: 1rem;
+  }
+
+  @media   (max-width: 800px) {
+    .popularDestinationParent .leftcard img {
+        /* border-radius: 8%; */
+        margin: 0rem;
+        margin-bottom: 1rem;
+      }
+      
+      .popularDestinationParent .rightCard img {
+        /* border-radius: 8%; */
+        margin: 0rem;
+        margin-bottom: 1rem;
+      }
+  }
+  

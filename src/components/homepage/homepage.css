@@ -1,0 +1,16 @@
+.counterImage{
+
+}
+.counterImagemobile{
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .counterImage{
+        display: none;
+    }
+    .counterImagemobile{
+        display: block;
+        width: 100%;
+    }
+  }

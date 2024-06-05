@@ -1,0 +1,27 @@
+.homesection2 .card{
+    padding: 4rem;
+    box-shadow: 2px 2px 2px 2px #e3e3e3;
+    background-color: white;
+    display: flex;
+    border-radius: 8px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+.homesection2 .cardsContainer{
+    display: flex;
+}
+.homesection2 .iconDiv{
+    border: 1px solid salmon;
+    padding: 1rem;
+    border-radius: 100%;
+}
+
+
+@media (max-width: 800px) {
+    .homesection2 .cardsContainer{
+        display: block;
+    }
+  }

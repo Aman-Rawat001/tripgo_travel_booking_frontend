@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import img from "../../../assets/headerimage.jpg";
 import "./homesection1.css";
+import { Link } from "react-router-dom";
 
 const dummyData = [
   {
@@ -125,16 +126,18 @@ const HomeSection1 = () => {
         </div>
         <div className="flex items-center justify-center my-8">
           <div>
-            <button
-              style={{
-                backgroundColor: "white",
-                color: "red",
-                border: "1px solid red",
-              }}
-              className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
-            >
-              Explore All
-            </button>
+            <Link to="/packages">
+              <button
+                style={{
+                  backgroundColor: "white",
+                  color: "red",
+                  border: "1px solid red",
+                }}
+                className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded "
+              >
+                Explore All
+              </button>
+            </Link>
           </div>
         </div>
       </div>

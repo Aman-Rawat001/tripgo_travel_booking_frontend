@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,11 +19,8 @@ const Navbar = () => {
               to="/"
               className="flex items-center text-gray-800 text-lg font-semibold"
             >
-              <img
-                src="https://demo.ovatheme.com/tripgo/wp-content/uploads/2022/07/logo-black.svg"
-                alt="Logo"
-                className="h-8 mr-2"
-              />
+              <img src={logo} alt="Logo" className="h-8 mr-2" />
+              <span>BonVoyage</span>
             </Link>
           </div>
           <div className="hidden md:block">
@@ -51,12 +49,12 @@ const Navbar = () => {
               >
                 My Wishlist
               </Link>
-              <a
-                href="/"
+              <Link
+                to="/faq"
                 className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
               >
                 FAQ's
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -169,40 +167,42 @@ const Navbar = () => {
       </div>
       <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
           >
             Home
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/packages"
             className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
           >
             Packages
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/mybookings"
             className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
           >
             My Bookings
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/mywishlist"
             className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
           >
             Wishlist
-          </a>
-          <a
-            href="/"
+          </Link>
+          <Link
+            to="/"
             className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
           >
             FAQ's
-          </a>
+          </Link>
           <div className="mt-4 flex justify-center">
-            <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md  font-medium">
-              Sign Up
-            </button>
+            <Link to="/signup">
+              <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md  font-medium">
+                Sign Up
+              </button>
+            </Link>
           </div>
         </div>
       </div>

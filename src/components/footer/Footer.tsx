@@ -1,15 +1,24 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import logo from "../../assets/logo.png";
 
 const Footer = () => {
   return (
     <div className="bg-gray-800 text-white py-12">
       <div className="container mx-auto flex flex-wrap justify-center">
         <div className="w-full lg:w-1/4 px-4 mb-8">
-          <img
-            src="https://demo.ovatheme.com/tripgo/wp-content/uploads/2022/07/logo-black.svg"
-            alt="Logo"
-            className="h-8 mb-4"
-          />
+          <Link
+            to="/"
+            className="flex items-center text-gray-800 text-lg font-semibold"
+          >
+            <img
+              style={{ borderRadius: "100%" }}
+              src={logo}
+              alt="Logo"
+              className="h-8 mr-2"
+            />
+            <span style={{ color: "white" }}>BonVoyage</span>
+          </Link>
           <p className="text-sm leading-relaxed">
             There are many variations of passages of Lorem the Ipsum available
             but it is the majority of suffered that a alteration in that some

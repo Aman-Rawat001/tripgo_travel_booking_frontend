@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0); // Assuming initial cart count is 0
 
@@ -10,8 +10,12 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeNavbar = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <nav className="bg-white shadow-lg fixed w-[100%] z-50">
+    <nav className="bg-white shadow-lg fixed w-full z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-20 items-center">
           <div className="flex-shrink-0">
@@ -33,25 +37,25 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/packages"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
+                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
               >
                 Packages
               </Link>
               <Link
                 to="/mybookings"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
+                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
               >
                 My Bookings
               </Link>
               <Link
                 to="/mywishlist"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
+                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
               >
                 My Wishlist
               </Link>
               <Link
                 to="/faq"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md  font-medium"
+                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
               >
                 FAQ's
               </Link>
@@ -71,13 +75,13 @@ const Navbar = () => {
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
-                    stroke-width="1.5"
+                    strokeWidth="1.5"
                     stroke="currentColor"
                     className="file: mt-4 h-6 w-6"
                   >
                     <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                     />
                   </svg>
@@ -90,11 +94,11 @@ const Navbar = () => {
               )}
             </div>
             <div className="ml-4 flex items-center md:ml-6">
-              <span className="text-gray-800 px-4 py-2 rounded-md  font-medium">
+              <span className="text-gray-800 px-4 py-2 rounded-md font-medium">
                 <Link to="/login"> Login</Link>
               </span>
               <Link to="/signup">
-                <button className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md  font-medium">
+                <button className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium">
                   Sign Up
                 </button>
               </Link>
@@ -112,13 +116,13 @@ const Navbar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                   stroke="currentColor"
                   className="file: mt-4 h-6 w-6"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                     d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
                 </svg>
@@ -165,41 +169,53 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className={`${isOpen ? "block" : "hidden"} md:hidden`}>
+      <div
+        className={`${
+          isOpen ? "max-h-screen" : "max-h-0"
+        } overflow-hidden md:hidden transition-all duration-300`}
+      >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
           <Link
             to="/"
-            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
+            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md font-medium"
+            onClick={closeNavbar}
           >
             Home
           </Link>
           <Link
             to="/packages"
-            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
+            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md font-medium"
+            onClick={closeNavbar}
           >
             Packages
           </Link>
           <Link
             to="/mybookings"
-            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
+            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md font-medium"
+            onClick={closeNavbar}
           >
             My Bookings
           </Link>
           <Link
             to="/mywishlist"
-            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
+            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md font-medium"
+            onClick={closeNavbar}
           >
-            Wishlist
+            My Wishlist
           </Link>
           <Link
-            to="/"
-            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md  font-medium"
+            to="/faq"
+            className="text-gray-800 text-lg hover:text-red-600 block px-3 py-2 rounded-md font-medium"
+            onClick={closeNavbar}
           >
             FAQ's
           </Link>
           <div className="mt-4 flex justify-center">
             <Link to="/signup">
-              <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md  font-medium">
+              <button
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium"
+                onClick={closeNavbar}
+              >
                 Sign Up
               </button>
             </Link>

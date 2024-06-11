@@ -1,78 +1,104 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./packages.css"; // Import the CSS file
+import axios from "axios";
 
-type Package = {
-  id: number;
-  title: string;
-  location: string;
-  duration: string;
-  price: string;
-  rating: string;
-  image: string;
-  featured: boolean;
-  description: string;
-};
+// type Package = {
+//   id: number;
+//   title: string;
+//   location: string;
+//   duration: string;
+//   price: string;
+//   rating: string;
+//   image: string;
+//   featured: boolean;
+//   description: string;
+// };
 
-const packages: Package[] = [
-  {
-    id: 1,
-    title: "Ecotourism Sabah sightseeing tours - 2 hours",
-    location: "Sabah, Malaysia",
-    duration: "2 hours",
-    price: "$10.00",
-    rating: "4.5",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: true,
-    description:
-      "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
-  },
-  {
-    id: 2,
-    title: "Copenhagen City Tours - 4 Hours",
-    location: "Copenhagen, Denmark",
-    duration: "4 hours",
-    price: "$15.00",
-    rating: "4.5",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: true,
-    description:
-      "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
-  },
-  {
-    id: 3,
-    title: "Copenhagen to Helsinki - 7 Days",
-    location: "Copenhagen, Denmark",
-    duration: "7 days",
-    price: "$339.99",
-    rating: "5.0",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: false,
-    description:
-      "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
-  },
-  {
-    id: 4,
-    title: "Copenhagen to Helsinki - 7 Days",
-    location: "Copenhagen, Denmark",
-    duration: "7 days",
-    price: "$339.99",
-    rating: "5.0",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: false,
-    description:
-      "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
-  },
-];
+// const packages: Package[] = [
+//   {
+//     id: 1,
+//     title: "Ecotourism Sabah sightseeing tours - 2 hours",
+//     location: "Sabah, Malaysia",
+//     duration: "2 hours",
+//     price: "$10.00",
+//     rating: "4.5",
+//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
+//     featured: true,
+//     description:
+//       "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
+//   },
+//   {
+//     id: 2,
+//     title: "Copenhagen City Tours - 4 Hours",
+//     location: "Copenhagen, Denmark",
+//     duration: "4 hours",
+//     price: "$15.00",
+//     rating: "4.5",
+//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
+//     featured: true,
+//     description:
+//       "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
+//   },
+//   {
+//     id: 3,
+//     title: "Copenhagen to Helsinki - 7 Days",
+//     location: "Copenhagen, Denmark",
+//     duration: "7 days",
+//     price: "$339.99",
+//     rating: "5.0",
+//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
+//     featured: false,
+//     description:
+//       "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
+//   },
+//   {
+//     id: 4,
+//     title: "Copenhagen to Helsinki - 7 Days",
+//     location: "Copenhagen, Denmark",
+//     duration: "7 days",
+//     price: "$339.99",
+//     rating: "5.0",
+//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
+//     featured: false,
+//     description:
+//       "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
+//   },
+// ];
+
+interface packages {  
+  
+packageID: string,
+packageImage: string,
+  packageName: string,
+packagePrice: string,
+packageDuration: string,
+packageDesc: string,
+packageCountry: string;
+packageRating: number;
+
+
+}
 
 const Packages: React.FC = () => {
+  const [packages, setPackages] = useState<packages[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredPackages = packages.filter(
     (pkg) =>
-      pkg.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pkg.location.toLowerCase().includes(searchQuery.toLowerCase())
+      pkg.packageName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      pkg.packageCountry.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+
+  useEffect(()=>{
+    axios.get("http://localhost:8080/packages").then((res)=>{
+      console.log(res.data);
+      setPackages(res.data)
+    }).catch((err)=>{
+    console.log(err)
+    })
+  },[])
 
   return (
     <div className="container mx-auto p-4 animate-fadeIn">
@@ -110,35 +136,35 @@ const Packages: React.FC = () => {
       <div className="space-y-4">
         {filteredPackages.map((pkg) => (
           <div
-            key={pkg.id}
+            key={pkg.packageID}
             className="border rounded-lg overflow-hidden shadow-lg flex flex-col md:flex-row transform transition-all duration-500 hover:scale-105"
           >
             <div className="relative flex-shrink-0 w-full md:w-1/3">
               <img
-                src={pkg.image}
-                alt={pkg.title}
+                src={pkg.packageImage}
+                alt={pkg.packageName}
                 className="w-full h-48 object-cover"
               />
-              {pkg.featured && (
+          
                 <div className="absolute top-0 left-0 bg-red-500 text-white p-1 text-xs font-semibold uppercase">
                   Featured
                 </div>
-              )}
+             
             </div>
             <div className="p-4 flex flex-col justify-between w-full md:w-2/3">
               <div>
-                <h2 className="text-xl font-semibold mb-2">{pkg.title}</h2>
-                <p className="text-sm text-gray-600 mb-1">{pkg.location}</p>
-                <p className="text-sm text-gray-600 mb-1">{pkg.duration}</p>
+                <h2 className="text-xl font-semibold mb-2">{pkg.packageName}</h2>
+                <p className="text-sm text-gray-600 mb-1">{pkg.packageCountry}</p>
+                <p className="text-sm text-gray-600 mb-1">{pkg.packageDuration}</p>
                 <p className="text-sm font-bold text-gray-600 mb-1">
-                  {pkg.price}
+                  {pkg.packagePrice}
                 </p>
                 <p className="text-sm text-yellow-600 mb-1">
-                  {pkg.rating} stars
+                  {pkg.packageRating} stars
                 </p>
-                <p className="text-sm text-gray-600 mb-4">{pkg.description}</p>
+                <p className="text-sm text-gray-600 mb-4">{pkg.packageDesc}</p>
               </div>
-              <Link to={`/packages/${pkg.id}`}>
+              <Link to={`/packages/${pkg.packageID}`}>
                 <button className="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors duration-300">
                   Explore
                 </button>

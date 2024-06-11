@@ -13,6 +13,7 @@ import MyWishlist from "./components/mywishlist/MyWishlist";
 import MyBookings from "./components/mybookings/MyBookings";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
 import FAQ from "./components/FAQ/Faq";
+import ConfirmationPage from "./components/confirmationPage/ConfirmationPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/packages/:id" element={<PackageDetails />} />
         <Route path="/mywishlist" element={<MyWishlist />} />
         <Route path="/mybookings" element={<MyBookings />} />
+        <Route path="/bookingconfirmation" element={<ConfirmationPage />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

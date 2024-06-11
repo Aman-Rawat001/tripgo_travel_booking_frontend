@@ -38,7 +38,7 @@ const HeroScreen = () => {
           <div className="text-center" style={{ backdropFilter: "blur(0px)" }}>
             <p className="upperPara text-3xl">Explore the World</p>
             <p
-              className="lowerPara lg:text-7xl text-5xl mb-5"
+              className="lowerPara  lg:text-7xl text-5xl mb-5"
               style={{
                 color: "white",
                 textShadow: "2px 2px black",

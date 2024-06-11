@@ -153,6 +153,11 @@ const PackageDetails: React.FC = () => {
           </tbody>
         </table>
       </div>
+      <div>
+        <button className="w-[100%] bg-red-600 hover:bg-red-[#DC2626] text-white font-bold py-2 px-4 rounded">
+          Book Now
+        </button>
+      </div>
     </div>
   );
 };

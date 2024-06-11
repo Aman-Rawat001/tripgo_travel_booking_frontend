@@ -1,5 +1,6 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 type Package = {
   id: number;
@@ -13,63 +14,20 @@ type Package = {
   description: string;
 };
 
-const packages: Package[] = [
-  {
-    id: 1,
-    title: "Ecotourism Sabah sightseeing tours - 2 hours",
-    location: "Sabah, Malaysia",
-    duration: "2 hours",
-    price: "$10.00",
-    rating: "4.5",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: true,
-    description:
-      "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
-  },
-  {
-    id: 2,
-    title: "Copenhagen City Tours - 4 Hours",
-    location: "Copenhagen, Denmark",
-    duration: "4 hours",
-    price: "$15.00",
-    rating: "4.5",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: true,
-    description:
-      "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
-  },
-  {
-    id: 3,
-    title: "Copenhagen to Helsinki - 7 Days",
-    location: "Copenhagen, Denmark",
-    duration: "7 days",
-    price: "$339.99",
-    rating: "5.0",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: false,
-    description:
-      "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
-  },
-  {
-    id: 3,
-    title: "Copenhagen to Helsinki - 7 Days",
-    location: "Copenhagen, Denmark",
-    duration: "7 days",
-    price: "$339.99",
-    rating: "5.0",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    featured: false,
-    description:
-      "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
-  },
-];
-
 const PackageDetails: React.FC = () => {
+  const { packageId } = useParams();
+  // console.log("param:" + packageId);
   const navigate = useNavigate();
 
   const handleBookigConfirmation = () => {
     navigate("/bookingconfirmation");
   };
+
+  useEffect(() => {
+    axios.get(`http://localhost:8080/packages/${packageId}`).then((res) => {
+      console.log(res.data);
+    });
+  }, []);
 
   return (
     <div className="container mx-auto p-4">

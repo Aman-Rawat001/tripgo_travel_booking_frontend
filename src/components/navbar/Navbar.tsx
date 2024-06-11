@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
+interface userData {
+  userName: string;
+}
+
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0); // Assuming initial cart count is 0
+  const [cartCount, setCartCount] = useState(0);
+  const [userExist, setUserExist] = useState(false);
+  const [user, setUser] = useState<userData>({
+    userName: "",
+  });
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
@@ -13,6 +21,22 @@ const Navbar: React.FC = () => {
   const closeNavbar = () => {
     setIsOpen(false);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      console.log("User data:", parsedUserData);
+      setUserExist(true);
+      setUser(parsedUserData);
+    } else {
+    }
+  }, []);
 
   return (
     <nav className="bg-white shadow-lg fixed w-full z-50 transition-all duration-300">
@@ -95,13 +119,26 @@ const Navbar: React.FC = () => {
             </div>
             <div className="ml-4 flex items-center md:ml-6">
               <span className="text-gray-800 px-4 py-2 rounded-md font-medium">
-                <Link to="/login"> Login</Link>
+                {userExist ? (
+                  <Link to="/">Hey {user.userName}</Link>
+                ) : (
+                  <Link to="/login"> Login</Link>
+                )}
               </span>
-              <Link to="/signup">
-                <button className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium">
-                  Sign Up
+              {!userExist ? (
+                <Link to="/signup">
+                  <button className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium">
+                    Sign Up
+                  </button>
+                </Link>
+              ) : (
+                <button
+                  onClick={handleLogout}
+                  className="ml-4 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-medium"
+                >
+                  Logout
                 </button>
-              </Link>
+              )}
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -36,18 +37,22 @@ const SignInPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const SignInForm = () => {
-
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     // Make Axios call to get data
-    axios.get(`http://localhost:5005/users/${userId}/${password}`)
-      .then(response => {
+    axios
+      .get(`http://localhost:5005/users/${userId}/${password}`)
+      .then((response) => {
         // Handle the response data
         console.log(response.data);
+        localStorage.setItem("userData", JSON.stringify(response.data));
+        navigate("/");
+        window.location.reload();
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle errors
         console.error("Error fetching data:", error);
       });
@@ -68,7 +73,7 @@ const SignInForm = () => {
           name="email"
           autoComplete="email"
           value={userId}
-          onChange={(e)=>setUserId(e.target.value)}
+          onChange={(e) => setUserId(e.target.value)}
         />
         <TextField
           margin="normal"
@@ -80,9 +85,9 @@ const SignInForm = () => {
           id="password"
           autoComplete="current-password"
           value={password}
-          onChange={(e)=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        
+
         <Button
           type="button" // Change to type="button"
           fullWidth
@@ -92,7 +97,7 @@ const SignInForm = () => {
         >
           SIGN IN
         </Button>
-        
+
         <Grid container justifyContent="flex-end">
           <Grid item xs>
             <Link href="#" variant="body2">

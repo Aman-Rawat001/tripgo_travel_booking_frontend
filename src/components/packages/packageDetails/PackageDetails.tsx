@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 type Package = {
   id: number;
@@ -64,6 +65,12 @@ const packages: Package[] = [
 ];
 
 const PackageDetails: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleBookigConfirmation = () => {
+    navigate("/bookingconfirmation");
+  };
+
   return (
     <div className="container mx-auto p-4">
       {/* Header Section */}
@@ -152,6 +159,14 @@ const PackageDetails: React.FC = () => {
             </tr>
           </tbody>
         </table>
+      </div>
+      <div>
+        <button
+          onClick={handleBookigConfirmation}
+          className="w-[100%] bg-red-600 hover:bg-red-[#DC2626] text-white font-bold py-2 px-4 rounded"
+        >
+          Book Now
+        </button>
       </div>
     </div>
   );

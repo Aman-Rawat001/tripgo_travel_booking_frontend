@@ -1,3 +1,17 @@
+.imageContent{
+    position: relative;
+}
+.imageContentCard .timer{
+    position: absolute;
+    border: 1px solid #71cb71;
+    border-radius: 12%;
+    padding: 0px;
+    bottom: -13px;
+    background-color: white;
+    left: 19px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
 
 @media (max-width: 800px) {

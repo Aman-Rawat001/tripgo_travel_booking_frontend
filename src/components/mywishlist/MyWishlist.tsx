@@ -1,49 +1,46 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-type Package = {
-  id: number;
-  title: string;
-  location: string;
-  image: string;
-  description: string;
-};
-
-const dummyPackages: Package[] = [
-  {
-    id: 1,
-    title:
-      "London Extravaganza: A Captivating 3-Day Journey through Royal Majesty, Artistic Splendors, and Urban Marvels",
-    location: "London",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    description:
-      "London Extravaganza: A Captivating 3-Day Journey through Royal Majesty, Artistic Splendors, and Urban Marvels",
-  },
-  {
-    id: 2,
-    title:
-      "Sydney Spectacular: A 5-Day Voyage through Harbor Charms, Coastal Wonders, and Urban Delights",
-    location: "Sydney",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    description:
-      "Sydney Spectacular: A 5-Day Voyage through Harbor Charms, Coastal Wonders, and Urban Delights",
-  },
-  {
-    id: 3,
-    title:
-      "Chennai Essence Revealed: A 10-Day Cultural Odyssey through South Indian Heritage and Coastal Splendors",
-    location: "Chennai",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    description:
-      "Chennai Essence Revealed: A 10-Day Cultural Odyssey through South Indian Heritage and Coastal Splendors",
-  },
-];
+interface wishlist {
+  wishlistID: string;
+  bookingPerson: string;
+  bookingRooms: string;
+  packageImage: string;
+  packageID: string;
+  packageName: string;
+  packageDesc: string;
+  userID: string;
+}
 
 const MyWishlist: React.FC = () => {
-  const [packages, setPackages] = useState(dummyPackages);
+  const [packagesData, setPackagesData] = useState<wishlist[]>([]);
+  const [userDataId, setUserDataId] = useState("");
 
   const handleDeleteWishlist = (pkg: any) => {
-    setPackages(packages.filter((ele) => ele.id !== pkg.id));
+    setPackagesData(
+      packagesData.filter((ele) => ele.wishlistID !== pkg.wishlistID)
+    );
   };
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      console.log("User data:", parsedUserData.userId);
+      // setUserDataId(parsedUserData.userId);
+
+      // Use parsedUserData.userId directly
+      axios
+        .get(`http://localhost:5008/api/wishlists/${parsedUserData.userId}`)
+        .then((res) => {
+          console.log(res);
+          setPackagesData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, []);
 
   return (
     <div className="container mx-auto p-4">
@@ -60,7 +57,7 @@ const MyWishlist: React.FC = () => {
           <button className="text-blue-500">View Map</button>
         </div>
       </div>
-      {packages.length === 0 ? (
+      {packagesData.length === 0 ? (
         <h1 className="text-3xl font-semibold text-center mb-4 mt-[8rem] underline">
           Oops! No Items Found.
         </h1>
@@ -76,21 +73,22 @@ const MyWishlist: React.FC = () => {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {packages.map((pkg) => (
+        {packagesData.map((pkg) => (
           <div
-            key={pkg.id}
+            key={pkg.wishlistID}
             className="border rounded-lg overflow-hidden shadow-lg flex flex-col justify-between"
           >
             <div>
               <img
-                src={pkg.image}
-                alt={pkg.title}
+                src={pkg.packageImage}
+                alt={pkg.packageName}
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <h2 className="text-lg font-semibold mb-2">{pkg.title}</h2>
-                <p className="text-sm text-gray-600 mb-2">{pkg.location}</p>
-                <p className="text-sm text-gray-600">{pkg.description}</p>
+                <h2 className="text-lg font-semibold mb-2">
+                  {pkg.packageName}
+                </h2>
+                <p className="text-sm text-gray-600">{pkg.packageDesc}</p>
               </div>
             </div>
             <div className="p-4 flex justify-end">

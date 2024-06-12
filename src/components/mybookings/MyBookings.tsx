@@ -1,45 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./mybookings.css"; // Ensure to import the CSS file with the fade-in animation
+import axios from "axios";
 
-type Package = {
-  id: number;
-  title: string;
-  location: string;
-  image: string;
-  description: string;
-};
-
-const packages: Package[] = [
-  {
-    id: 1,
-    title:
-      "London Extravaganza: A Captivating 3-Day Journey through Royal Majesty, Artistic Splendors, and Urban Marvels",
-    location: "London",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    description:
-      "London Extravaganza: A Captivating 3-Day Journey through Royal Majesty, Artistic Splendors, and Urban Marvels",
-  },
-  {
-    id: 2,
-    title:
-      "Sydney Spectacular: A 5-Day Voyage through Harbor Charms, Coastal Wonders, and Urban Delights",
-    location: "Sydney",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    description:
-      "Sydney Spectacular: A 5-Day Voyage through Harbor Charms, Coastal Wonders, and Urban Delights",
-  },
-  {
-    id: 3,
-    title:
-      "Chennai Essence Revealed: A 10-Day Cultural Odyssey through South Indian Heritage and Coastal Splendors",
-    location: "Chennai",
-    image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-    description:
-      "Chennai Essence Revealed: A 10-Day Cultural Odyssey through South Indian Heritage and Coastal Splendors",
-  },
-];
+interface bookings {
+  bookingID: string;
+  bookingPerson: string;
+  bookingRooms: string;
+  packageImage: string;
+  packageID: string;
+  packageName: string;
+  userID: string;
+}
 
 const MyBookings: React.FC = () => {
+  const [packagesData, setPackagesData] = useState<bookings[]>([]);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      // console.log("User data:", parsedUserData);
+      axios
+        .get(`http://localhost:5001/book/${parsedUserData.userId}`)
+        .then((res) => {
+          console.log(res.data);
+          setPackagesData(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+    }
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <div className="relative w-full h-64 md:h-96 mt-[8rem]">
@@ -57,22 +50,28 @@ const MyBookings: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-10">
-        {packages.map((pkg, index) => (
+        {packagesData.map((pkg, index) => (
           <div
-            key={pkg.id}
+            key={pkg.bookingID}
             className="border rounded-lg overflow-hidden shadow-lg flex flex-col justify-between fade-in"
             style={{ animationDelay: `${index * 0.3}s` }}
           >
             <div>
               <img
-                src={pkg.image}
-                alt={pkg.title}
+                src={pkg.packageImage}
+                alt={pkg.packageImage}
                 className="w-full h-48 object-cover"
               />
               <div className="p-4">
-                <h2 className="text-lg font-semibold mb-2">{pkg.title}</h2>
-                <p className="text-sm text-gray-600 mb-2">{pkg.location}</p>
-                <p className="text-sm text-gray-600">{pkg.description}</p>
+                <h2 className="text-lg font-semibold mb-2">
+                  {pkg.packageName}
+                </h2>
+                <p className="text-sm text-gray-600 mb-2">
+                  Total Booking Rooms: {pkg.bookingRooms}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Total Booking Persons: {pkg.bookingPerson}
+                </p>
               </div>
             </div>
             <div className="p-4 flex justify-end"></div>

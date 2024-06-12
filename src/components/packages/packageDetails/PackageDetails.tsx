@@ -27,8 +27,42 @@ const PackageDetails: React.FC = () => {
   const { packageId } = useParams();
   const navigate = useNavigate();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [numPersons, setNumPersons] = useState(1);
+  const [numRooms, setNumRooms] = useState(1);
+
   const handleBookingConfirmation = () => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      setIsModalOpen(true);
+    } else {
+      navigate("/login");
+    }
+  };
+
+  const handleModalSubmit = () => {
+    setIsModalOpen(false);
     navigate("/bookingconfirmation");
+  };
+
+  interface usersData {
+    userId: string;
+  }
+
+  const handleBookNow = () => {
+    const userDataString = localStorage.getItem("userData");
+    if (userDataString) {
+      const userData = JSON.parse(userDataString) as usersData;
+      const userId = userData.userId;
+      axios
+        .post(
+          `http://localhost:5001/book/${packageId}/${userData.userId}/${numPersons}/${numRooms}`,
+          {}
+        )
+        .then((res) => {
+          console.log(res);
+        });
+    }
   };
 
   useEffect(() => {
@@ -117,11 +151,66 @@ const PackageDetails: React.FC = () => {
       <div>
         <button
           onClick={handleBookingConfirmation}
-          className="w-[100%] bg-red-600 hover:bg-red-[#DC2626] text-white font-bold py-2 px-4 rounded"
+          className="w-[100%] bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         >
           Book Now
         </button>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
+            <h2 className="text-2xl font-bold mb-4">Booking Details</h2>
+            <form onSubmit={handleModalSubmit}>
+              <div className="mb-4">
+                <label htmlFor="numPersons" className="block text-gray-700">
+                  Number of Persons
+                </label>
+                <input
+                  type="number"
+                  id="numPersons"
+                  value={numPersons}
+                  onChange={(e) => setNumPersons(parseInt(e.target.value))}
+                  min="1"
+                  className="w-full p-2 border border-gray-300 rounded mt-2"
+                  required
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="numRooms" className="block text-gray-700">
+                  Number of Rooms
+                </label>
+                <input
+                  type="number"
+                  id="numRooms"
+                  value={numRooms}
+                  onChange={(e) => setNumRooms(parseInt(e.target.value))}
+                  min="1"
+                  className="w-full p-2 border border-gray-300 rounded mt-2"
+                  required
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="mr-4 px-4 py-2 bg-gray-500 text-white rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleBookNow}
+                  type="submit"
+                  className="px-4 py-2 bg-red-600 text-white rounded"
+                >
+                  Confirm
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -65,18 +65,22 @@ const Navbar: React.FC = () => {
               >
                 Packages
               </Link>
-              <Link
-                to="/mybookings"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
-              >
-                My Bookings
-              </Link>
-              <Link
-                to="/mywishlist"
-                className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
-              >
-                My Wishlist
-              </Link>
+              {userExist && (
+                <Link
+                  to="/mybookings"
+                  className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
+                >
+                  My Bookings
+                </Link>
+              )}
+              {userExist && (
+                <Link
+                  to="/mywishlist"
+                  className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"
+                >
+                  My Wishlist
+                </Link>
+              )}
               <Link
                 to="/faq"
                 className="text-gray-800 hover:text-red-600 px-3 py-2 rounded-md font-medium"

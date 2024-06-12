@@ -42,7 +42,13 @@ const MyBookings: React.FC = () => {
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white text-center p-4">
-          <h1 className="text-3xl md:text-5xl font-bold">My Bookings</h1>
+          {packagesData.length === 0 ? (
+            <h1 className="text-3xl md:text-5xl font-bold">
+              Oops! No Bookings Found
+            </h1>
+          ) : (
+            <h1 className="text-3xl md:text-5xl font-bold">My Bookings</h1>
+          )}
         </div>
         <div className="absolute bottom-0 right-0 bg-white bg-opacity-75 p-2 m-2 rounded">
           <button className="text-blue-500">View Map</button>

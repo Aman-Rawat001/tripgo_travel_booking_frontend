@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import Axios
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import {
   Box,
@@ -37,6 +38,7 @@ const FormGrid = styled(Grid)({
 });
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: "",
     userEmail: "",
@@ -51,7 +53,10 @@ const RegistrationForm = () => {
 
     try {
       // Post data to the database
-      const response = await axios.post("http://localhost:5005/users", formData);
+      const response = await axios.post(
+        "http://localhost:5005/users",
+        formData
+      );
       console.log(response.data); // Log the response
 
       // Clear the form fields after successful submission
@@ -62,6 +67,7 @@ const RegistrationForm = () => {
         password: "",
         userAddress: "",
       });
+      navigate("/login");
     } catch (error) {
       console.error("Error:", error);
       // Handle error

@@ -3,86 +3,21 @@ import { Link } from "react-router-dom";
 import "./packages.css"; // Import the CSS file
 import axios from "axios";
 
-// type Package = {
-//   id: number;
-//   title: string;
-//   location: string;
-//   duration: string;
-//   price: string;
-//   rating: string;
-//   image: string;
-//   featured: boolean;
-//   description: string;
-// };
-
-// const packages: Package[] = [
-//   {
-//     id: 1,
-//     title: "Ecotourism Sabah sightseeing tours - 2 hours",
-//     location: "Sabah, Malaysia",
-//     duration: "2 hours",
-//     price: "$10.00",
-//     rating: "4.5",
-//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-//     featured: true,
-//     description:
-//       "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
-//   },
-//   {
-//     id: 2,
-//     title: "Copenhagen City Tours - 4 Hours",
-//     location: "Copenhagen, Denmark",
-//     duration: "4 hours",
-//     price: "$15.00",
-//     rating: "4.5",
-//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-//     featured: true,
-//     description:
-//       "The Caucasus Mountains are a mountain range at the intersection of Asia and Europe",
-//   },
-//   {
-//     id: 3,
-//     title: "Copenhagen to Helsinki - 7 Days",
-//     location: "Copenhagen, Denmark",
-//     duration: "7 days",
-//     price: "$339.99",
-//     rating: "5.0",
-//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-//     featured: false,
-//     description:
-//       "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
-//   },
-//   {
-//     id: 4,
-//     title: "Copenhagen to Helsinki - 7 Days",
-//     location: "Copenhagen, Denmark",
-//     duration: "7 days",
-//     price: "$339.99",
-//     rating: "5.0",
-//     image: "https://via.placeholder.com/400x200", // Replace with actual image URL
-//     featured: false,
-//     description:
-//       "Copenhagen, Denmark's capital, sits on the coastal islands of Zealand and Amager",
-//   },
-// ];
-
-interface packages {  
-  
-packageID: string,
-packageImage: string,
-  packageName: string,
-packagePrice: string,
-packageDuration: string,
-packageDesc: string,
-packageCountry: string;
-packageRating: number;
-
-
+interface packages {
+  packageID: string;
+  packageImage: string;
+  packageName: string;
+  packagePrice: string;
+  packageDuration: string;
+  packageDesc: string;
+  packageCountry: string;
+  packageRating: number;
 }
 
 const Packages: React.FC = () => {
   const [packages, setPackages] = useState<packages[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [wishlist, setWishlist] = useState<string[]>([]);
 
   const filteredPackages = packages.filter(
     (pkg) =>
@@ -90,15 +25,57 @@ const Packages: React.FC = () => {
       pkg.packageCountry.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/packages")
+      .then((res) => {
+        console.log(res.data);
+        setPackages(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  useEffect(()=>{
-    axios.get("http://localhost:8080/packages").then((res)=>{
-      console.log(res.data);
-      setPackages(res.data)
-    }).catch((err)=>{
-    console.log(err)
-    })
-  },[])
+  const handleWishlistClick = (packageID: string) => {
+    console.log("clicked");
+    const userData = localStorage.getItem("userData");
+
+    if (wishlist.includes(packageID)) {
+      setWishlist((prevWishlist) =>
+        prevWishlist.filter((id) => id !== packageID)
+      );
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        axios
+          .delete(
+            `http://localhost:5008/api/wishlists/${parsedUserData.userId}/${packageID}`
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } else {
+      setWishlist((prevWishlist) => [...prevWishlist, packageID]);
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        axios
+          .post(
+            `http://localhost:5008/api/wishlists/${parsedUserData.userId}/${packageID}`,
+            {}
+          )
+          .then((res) => {
+            console.log(res.data);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  };
 
   return (
     <div className="container mx-auto p-4 animate-fadeIn">
@@ -137,7 +114,7 @@ const Packages: React.FC = () => {
         {filteredPackages.map((pkg) => (
           <div
             key={pkg.packageID}
-            className="border rounded-lg overflow-hidden shadow-lg flex flex-col md:flex-row transform transition-all duration-500 hover:scale-105"
+            className="border rounded-lg overflow-hidden shadow-lg flex flex-col md:flex-row transform transition-all duration-500 hover:scale-105 relative"
           >
             <div className="relative flex-shrink-0 w-full md:w-1/3">
               <img
@@ -145,17 +122,21 @@ const Packages: React.FC = () => {
                 alt={pkg.packageName}
                 className="w-full h-48 object-cover"
               />
-          
-                <div className="absolute top-0 left-0 bg-red-500 text-white p-1 text-xs font-semibold uppercase">
-                  Featured
-                </div>
-             
+              <div className="absolute top-0 left-0 bg-red-500 text-white p-1 text-xs font-semibold uppercase">
+                Featured
+              </div>
             </div>
             <div className="p-4 flex flex-col justify-between w-full md:w-2/3">
               <div>
-                <h2 className="text-xl font-semibold mb-2">{pkg.packageName}</h2>
-                <p className="text-sm text-gray-600 mb-1">{pkg.packageCountry}</p>
-                <p className="text-sm text-gray-600 mb-1">{pkg.packageDuration}</p>
+                <h2 className="text-xl font-semibold mb-2">
+                  {pkg.packageName}
+                </h2>
+                <p className="text-sm text-gray-600 mb-1">
+                  {pkg.packageCountry}
+                </p>
+                <p className="text-sm text-gray-600 mb-1">
+                  {pkg.packageDuration}
+                </p>
                 <p className="text-sm font-bold text-gray-600 mb-1">
                   {pkg.packagePrice}
                 </p>
@@ -164,11 +145,28 @@ const Packages: React.FC = () => {
                 </p>
                 <p className="text-sm text-gray-600 mb-4">{pkg.packageDesc}</p>
               </div>
-              <Link to={`/packages/${pkg.packageID}`}>
-                <button className="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors duration-300">
-                  Explore
-                </button>
-              </Link>
+              <div className="flex justify-between items-center">
+                <Link to={`/packages/${pkg.packageID}`}>
+                  <button className="mt-4 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 transition-colors duration-300">
+                    Explore
+                  </button>
+                </Link>
+                <svg
+                  onClick={() => handleWishlistClick(pkg.packageID)}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill={wishlist.includes(pkg.packageID) ? "red" : "none"}
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-red-600 cursor-pointer ml-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         ))}

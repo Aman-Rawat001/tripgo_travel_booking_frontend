@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 import {
   Box,
@@ -49,15 +50,13 @@ const RegistrationForm = () => {
 
   // Function to handle form submission
   const handleSubmit = async (event: any) => {
-    event.preventDefault(); // Prevent default form submission
-
+    event.preventDefault();
     try {
-      // Post data to the database
       const response = await axios.post(
         "http://localhost:5005/users",
         formData
       );
-      console.log(response.data); // Log the response
+      console.log(response.data);
 
       // Clear the form fields after successful submission
       setFormData({
@@ -67,10 +66,10 @@ const RegistrationForm = () => {
         password: "",
         userAddress: "",
       });
-      navigate("/login");
+      toast.success("User Register Successfully.");
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       console.error("Error:", error);
-      // Handle error
     }
   };
 
@@ -84,95 +83,98 @@ const RegistrationForm = () => {
   };
 
   return (
-    <RegisterPaper elevation={3}>
-      <Typography component="h1" variant="h5">
-        Register with Us
-      </Typography>
-      <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="name"
-          label="Name"
-          name="userName"
-          autoComplete="name"
-          value={formData.userName}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email"
-          name="userEmail"
-          autoComplete="email"
-          value={formData.userEmail}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="phone"
-          label="Phone"
-          name="phoneNumber"
-          autoComplete="phone"
-          value={formData.phoneNumber}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="confirmPassword"
-          label="Confirm Password"
-          type="password"
-          id="confirmPassword"
-          // value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="address"
-          label="Address"
-          name="userAddress"
-          autoComplete="address"
-          value={formData.userAddress}
-          onChange={handleChange}
-        />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2, backgroundColor: "#DC2626" }}
-        >
-          REGISTER
-        </Button>
-        <Grid container justifyContent="flex-end">
-          <Grid item>
-            <Link href="#" variant="body2">
-              Already have an account? Log in
-            </Link>
+    <>
+      <ToastContainer />
+      <RegisterPaper elevation={3}>
+        <Typography component="h1" variant="h5">
+          Register with Us
+        </Typography>
+        <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="userName"
+            autoComplete="name"
+            value={formData.userName}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            name="userEmail"
+            autoComplete="email"
+            value={formData.userEmail}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="phone"
+            label="Phone"
+            name="phoneNumber"
+            autoComplete="phone"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="confirmPassword"
+            label="Confirm Password"
+            type="password"
+            id="confirmPassword"
+            // value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="address"
+            label="Address"
+            name="userAddress"
+            autoComplete="address"
+            value={formData.userAddress}
+            onChange={handleChange}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, backgroundColor: "#DC2626" }}
+          >
+            REGISTER
+          </Button>
+          <Grid container justifyContent="flex-end">
+            <Grid item>
+              <Link href="#" variant="body2">
+                Already have an account? Log in
+              </Link>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </RegisterPaper>
+        </Box>
+      </RegisterPaper>
+    </>
   );
 };
 

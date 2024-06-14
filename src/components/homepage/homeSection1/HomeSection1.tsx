@@ -116,9 +116,11 @@ const HomeSection1 = () => {
                       $2900
                     </span>
                   </p>
-                  <button className="bg-red-600 hover:bg-red-[#DC2626] text-white font-bold py-2 px-4 rounded">
-                    Explore
-                  </button>
+                  <Link to="/packages">
+                    <button className="bg-red-600 hover:bg-red-[#DC2626] text-white font-bold py-2 px-4 rounded">
+                      Explore
+                    </button>
+                  </Link>
                 </div>
               </div>
             );

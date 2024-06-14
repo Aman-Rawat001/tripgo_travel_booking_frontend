@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Box,
   Button,
@@ -13,6 +15,7 @@ import {
 import { styled } from "@mui/system";
 import travelImg from "../../assets/travel.png";
 import axios from "axios";
+import theme from "@material-tailwind/react/theme";
 
 const MainContainer = styled("div")({
   display: "flex",
@@ -42,76 +45,79 @@ const SignInForm = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
-    // Make Axios call to get data
     axios
       .get(`http://localhost:5005/users/${userId}/${password}`)
       .then((response) => {
-        // Handle the response data
-        console.log(response.data);
+        console.log("res data: " + response.data);
         localStorage.setItem("userData", JSON.stringify(response.data));
-        navigate("/");
-        window.location.reload();
+        toast.success("Sign In Successfully");
+        setTimeout(() => {
+          navigate("/");
+          window.location.reload();
+        }, 2000);
       })
       .catch((error) => {
-        // Handle errors
-        console.error("Error fetching data:", error);
+        toast.error("Oops! User Not Found.");
       });
   };
 
   return (
-    <SignInPaper elevation={3}>
-      <Typography component="h1" variant="h5">
-        Sign in
-      </Typography>
-      <Box component="form" sx={{ mt: 1 }}>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label="Email"
-          name="email"
-          autoComplete="email"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label="Password"
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+    <>
+      <ToastContainer />
+      <SignInPaper elevation={3}>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            name="email"
+            autoComplete="email"
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <Button
-          type="button" // Change to type="button"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2, backgroundColor: "#DC2626" }}
-          onClick={handleLogin} // Call handleLogin function on button click
-        >
-          SIGN IN
-        </Button>
+          <Button
+            type="button" // Change to type="button"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, backgroundColor: "#DC2626" }}
+            onClick={handleLogin} // Call handleLogin function on button click
+          >
+            SIGN IN
+          </Button>
 
-        <Grid container justifyContent="flex-end">
-          <Grid item xs>
-            <Link href="#" variant="body2">
-              Forgot password?
-            </Link>
+          <Grid container justifyContent="flex-end">
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="/sign-up" variant="body2">
+                {"Don't have an account? Sign up"}
+              </Link>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Link href="/sign-up" variant="body2">
-              {"Don't have an account? Sign up"}
-            </Link>
-          </Grid>
-        </Grid>
-      </Box>
-    </SignInPaper>
+        </Box>
+      </SignInPaper>
+    </>
   );
 };
 

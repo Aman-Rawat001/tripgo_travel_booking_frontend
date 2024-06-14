@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import axios from "axios";
 
 interface userData {
   userName: string;
@@ -10,6 +11,7 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartCount, setCartCount] = useState(0);
   const [userExist, setUserExist] = useState(false);
+  const [wishListCount, setWishListCount] = useState(0);
   const [user, setUser] = useState<userData>({
     userName: "",
   });
@@ -34,6 +36,22 @@ const Navbar: React.FC = () => {
       console.log("User data:", parsedUserData);
       setUserExist(true);
       setUser(parsedUserData);
+    } else {
+    }
+  }, []);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      const parsedUserData = JSON.parse(userData);
+      axios
+        .get(
+          `http://localhost:5008/api/wishlists/wishcount/${parsedUserData.userId}`
+        )
+        .then((res) => {
+          console.log(res.data);
+          setWishListCount(res.data);
+        });
     } else {
     }
   }, []);
@@ -94,7 +112,7 @@ const Navbar: React.FC = () => {
             <div className="relative py-2 ms-2">
               <div className="t-0 absolute left-3">
                 <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-                  3
+                  {wishListCount}
                 </p>
               </div>
               <div>
@@ -149,7 +167,7 @@ const Navbar: React.FC = () => {
             <div className="relative py-2 me-2">
               <div className="t-0 absolute left-3">
                 <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-                  3
+                  {wishListCount}
                 </p>
               </div>
               <div>

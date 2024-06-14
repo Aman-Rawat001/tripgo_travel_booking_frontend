@@ -118,6 +118,11 @@ const Packages: React.FC = () => {
           >
             <div className="relative flex-shrink-0 w-full md:w-1/3">
               <img
+                style={{
+                  height: "90%",
+                  paddingTop: "1rem",
+                  paddingBottom: "1rem",
+                }}
                 src={pkg.packageImage}
                 alt={pkg.packageName}
                 className="w-full h-48 object-cover"
